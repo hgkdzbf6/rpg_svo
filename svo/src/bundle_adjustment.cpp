@@ -1,5 +1,5 @@
 // This file is part of SVO - Semi-direct Visual Odometry.
-//
+// 
 // Copyright (C) 2014 Christian Forster <forster at ifi dot uzh dot ch>
 // (Robotics and Perception Group, University of Zurich, Switzerland).
 //
