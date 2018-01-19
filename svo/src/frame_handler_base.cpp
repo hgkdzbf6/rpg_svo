@@ -152,6 +152,7 @@ void FrameHandlerBase::resetCommon()
   tracking_quality_ = TRACKING_INSUFFICIENT;
   num_obs_last_ = 0;
   SVO_INFO_STREAM("RESET");
+  // this->start();
 }
 
 void FrameHandlerBase::setTrackingQuality(const size_t num_observations)

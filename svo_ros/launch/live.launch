@@ -1,9 +1,12 @@
 <launch>
-  
+    <!-- roslaunch svo_ros live.launch-->
+
+    <include file="$(find usb_cam)/launch/usb_cam-test.launch" />
+
     <node pkg="svo_ros" type="vo" name="svo" clear_params="true" output="screen">
     
         <!-- Camera topic to subscribe to -->
-        <param name="cam_topic" value="/camera/image_raw" type="str" />
+        <param name="cam_topic" value="/usb_cam/image_raw" type="str" />
         
         <!-- Camera calibration file -->
         <rosparam file="$(find svo_ros)/param/camera_atan.yaml" />
@@ -12,5 +15,7 @@
         <rosparam file="$(find svo_ros)/param/vo_fast.yaml" />
 
     </node>
+
+    <!--<node pkg="rqt_svo" name="rqt_svo" type="rqt_svo" />-->
         
 </launch>

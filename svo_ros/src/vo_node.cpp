@@ -29,6 +29,7 @@
 #include <image_transport/image_transport.h>
 #include <boost/thread.hpp>
 #include <cv_bridge/cv_bridge.h>
+#include <std_srvs/Trigger.h>
 #include <Eigen/Core>
 #include <vikit/abstract_camera.h>
 #include <vikit/camera_loader.h>
@@ -48,12 +49,16 @@ public:
   ros::Subscriber sub_remote_key_;
   std::string remote_input_;
   vk::AbstractCamera* cam_;
+  ros::ServiceServer svo_control_server_;
   bool quit_;
   VoNode();
   ~VoNode();
   void imgCb(const sensor_msgs::ImageConstPtr& msg);
   void processUserActions();
   void remoteKeyCb(const std_msgs::StringConstPtr& key_input);
+  bool SvoControlCallback(
+    		std_srvs::Trigger::Request &req,
+    		std_srvs::Trigger::Response &res);
 };
 
 VoNode::VoNode() :
@@ -80,6 +85,8 @@ VoNode::VoNode() :
       Eigen::Vector3d(vk::getParam<double>("svo/init_tx", 0.0),
                       vk::getParam<double>("svo/init_ty", 0.0),
                       vk::getParam<double>("svo/init_tz", 0.0)));
+
+
 
   // Init VO and start
   vo_ = new svo::FrameHandlerMono(cam_);
@@ -114,6 +121,16 @@ void VoNode::imgCb(const sensor_msgs::ImageConstPtr& msg)
 
   if(vo_->stage() == FrameHandlerMono::STAGE_PAUSED)
     usleep(100000);
+}
+
+bool VoNode::SvoControlCallback(
+  		std_srvs::Trigger::Request &req,
+  		std_srvs::Trigger::Response &res){
+	vo_->start();
+	ROS_WARN("VO START!!!!!!!!!!!!!!!!!!!!!!!");
+	res.message="svo start success";
+	res.success=true;
+	return true;
 }
 
 void VoNode::processUserActions()
@@ -168,6 +185,8 @@ int main(int argc, char **argv)
   // subscribe to remote input
   vo_node.sub_remote_key_ = nh.subscribe("svo/remote_key", 5, &svo::VoNode::remoteKeyCb, &vo_node);
 
+  vo_node.svo_control_server_ = nh.advertiseService("svo_control",
+		  &svo::VoNode::SvoControlCallback, &vo_node);
   // start processing callbacks
   while(ros::ok() && !vo_node.quit_)
   {

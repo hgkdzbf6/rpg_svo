@@ -25,6 +25,7 @@ FIND_PACKAGE(catkin REQUIRED COMPONENTS
   cmake_modules
   nav_msgs
   std_msgs
+  std_srvs
   visualization_msgs
   sensor_msgs
   image_transport

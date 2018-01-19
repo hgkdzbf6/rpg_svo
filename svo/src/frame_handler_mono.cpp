@@ -153,6 +153,7 @@ FrameHandlerBase::UpdateResult FrameHandlerMono::processFrame()
     SVO_WARN_STREAM_THROTTLE(1.0, "Not enough matched features.");
     new_frame_->T_f_w_ = last_frame_->T_f_w_; // reset to avoid crazy pose jumps
     tracking_quality_ = TRACKING_INSUFFICIENT;
+    this->start();
     return RESULT_FAILURE;
   }
 

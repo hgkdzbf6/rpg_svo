@@ -69,7 +69,7 @@ void Visualizer::publishMinimal(
 {
   ++trace_id_;
   std_msgs::Header header_msg;
-  header_msg.frame_id = "/cam";
+  header_msg.frame_id = "/world";
   header_msg.seq = trace_id_;
   header_msg.stamp = ros::Time(timestamp);
 
