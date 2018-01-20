@@ -70,8 +70,8 @@ VoNode::VoNode() :
   quit_(false)
 {
   // Start user input thread in parallel thread that listens to console keys
-  if(vk::getParam<bool>("svo/accept_console_user_input", true))
-    user_input_thread_ = boost::make_shared<vk::UserInputThread>();
+  // if(vk::getParam<bool>("svo/accept_console_user_input", true))
+  //   user_input_thread_ = boost::make_shared<vk::UserInputThread>();
 
   // Create Camera
   if(!vk::camera_loader::loadFromRosNs("svo", cam_))
@@ -109,7 +109,7 @@ void VoNode::imgCb(const sensor_msgs::ImageConstPtr& msg)
   } catch (cv_bridge::Exception& e) {
     ROS_ERROR("cv_bridge exception: %s", e.what());
   }
-  processUserActions();
+  // processUserActions();
   vo_->addImage(img, msg->header.stamp.toSec());
   visualizer_.publishMinimal(img, vo_->lastFrame(), *vo_, msg->header.stamp.toSec());
 
@@ -183,7 +183,7 @@ int main(int argc, char **argv)
   image_transport::Subscriber it_sub = it.subscribe(cam_topic, 5, &svo::VoNode::imgCb, &vo_node);
 
   // subscribe to remote input
-  vo_node.sub_remote_key_ = nh.subscribe("svo/remote_key", 5, &svo::VoNode::remoteKeyCb, &vo_node);
+  // vo_node.sub_remote_key_ = nh.subscribe("svo/remote_key", 5, &svo::VoNode::remoteKeyCb, &vo_node);
 
   vo_node.svo_control_server_ = nh.advertiseService("svo_control",
 		  &svo::VoNode::SvoControlCallback, &vo_node);

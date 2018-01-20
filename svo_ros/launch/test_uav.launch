@@ -1,9 +1,10 @@
 <launch>
+  <arg name="cam_topic" default="camera_nadir/image_raw" />
 
   <node pkg="svo_ros" type="vo" name="svo" clear_params="true" output="screen">
 
     <!-- Camera topic to subscribe to -->
-    <param name="cam_topic" value="/hummingbird/camera_nadir/image_raw" type="str" />
+    <param name="cam_topic" value="$(arg cam_topic)" type="str" />
     
     <!-- Camera calibration file -->
     <rosparam file="$(find svo_ros)/param/uav_cam.yaml" />
