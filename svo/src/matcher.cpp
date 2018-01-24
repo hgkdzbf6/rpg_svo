@@ -214,6 +214,7 @@ bool Matcher::findEpipolarMatchDirect(
   search_level_ = warp::getBestSearchLevel(A_cur_ref_, Config::nPyrLevels()-1);
 
   // Find length of search range on epipolar line
+  // 找到对极线的长度
   Vector2d px_A(cur_frame.cam_->world2cam(A));
   Vector2d px_B(cur_frame.cam_->world2cam(B));
   epi_length_ = (px_A-px_B).norm() / (1<<search_level_);
